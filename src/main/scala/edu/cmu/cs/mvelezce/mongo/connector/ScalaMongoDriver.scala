@@ -1,4 +1,4 @@
-package edu.cmu.cs.mvelezce.mongo
+package edu.cmu.cs.mvelezce.mongo.connector
 
 import java.util.logging.{Level, Logger}
 
@@ -8,7 +8,7 @@ import java.util.logging.{Level, Logger}
 /**
   * Created by miguelvelez on 4/5/17.
   */
-object Connector {
+object ScalaMongoDriver {
 
   val mongoLogger = Logger.getLogger("org.mongodb.driver")
   mongoLogger.setLevel(Level.SEVERE)

@@ -1,4 +1,4 @@
-package edu.cmu.cs.mvelezce.mongo
+package edu.cmu.cs.mvelezce.mongo.connector
 
 import java.util
 import java.util.logging.{Level, Logger}
@@ -8,7 +8,7 @@ import com.mongodb.casbah.{MongoClient, MongoCollection, MongoDB}
 /**
   * Created by miguelvelez on 4/5/17.
   */
-object CasbahConnector {
+object Casbah {
 
   val mongoLogger: Logger = Logger.getLogger("org.mongodb")
   mongoLogger.setLevel(Level.SEVERE)
