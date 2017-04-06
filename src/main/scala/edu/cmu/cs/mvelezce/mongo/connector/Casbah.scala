@@ -13,15 +13,16 @@ object Casbah {
   val mongoLogger: Logger = Logger.getLogger("org.mongodb")
   mongoLogger.setLevel(Level.SEVERE)
 
-  def connect(): util.LinkedList[util.HashMap[String,String]] = {
+//  TODO keep the order from the result
+  def connect(): util.List[util.Map[String,String]] = {
     val client: MongoClient = MongoClient("localhost", 27017)
     val database: MongoDB = client("lotrack")
     val collection: MongoCollection = database("Languagetool")
     val queryResult = collection.findOne()
-    val result = new util.LinkedList[util.HashMap[String,String]]
+    val result = new util.LinkedList[util.Map[String, String]]
 
     for(document <- queryResult) {
-      val hold = new util.HashMap[String,String]
+      val hold: util.Map[String, String] = new util.HashMap[String, String]
 
       document.toMap.entrySet.forEach { entry =>
         val key = entry.getKey
@@ -47,7 +48,6 @@ object Casbah {
         hold.put(key1, value1)
       }
 
-      println(hold)
       result.add(hold)
     }
 
