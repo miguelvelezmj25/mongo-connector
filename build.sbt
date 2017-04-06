@@ -8,6 +8,8 @@ scalaVersion := "2.12.1"
 
 publishMavenStyle := true
 
+publishTo := Some(Resolver.file("file", new File(Path.userHome.absolutePath + "/.m2/repository")))
+
 //libraryDependencies += "org.mongodb.scala" %% "mongo-scala-driver" % "2.0.0"
 
 libraryDependencies += "org.mongodb" %% "casbah" % "3.1.1"
