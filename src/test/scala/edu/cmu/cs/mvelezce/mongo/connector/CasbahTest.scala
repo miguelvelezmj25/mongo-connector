@@ -7,7 +7,9 @@ import org.scalatest.FlatSpec
   */
 class CasbahTest extends FlatSpec {
 
-  "CasbahConnector.connect()" should "return a non empty map" in {
-    assert(Casbah.connect() != null)
+  "CasbahConnector.connect(app, query)" should "return a non empty map" in {
+    val a = Casbah.connect("platypus")
+    assert(a.size() != 0)
+//    println(a)
   }
 }
