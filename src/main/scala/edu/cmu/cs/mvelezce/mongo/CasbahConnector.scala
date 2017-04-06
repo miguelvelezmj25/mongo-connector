@@ -10,22 +10,14 @@ import com.mongodb.casbah.{MongoClient, MongoCollection, MongoDB}
   */
 object CasbahConnector {
 
-  val mongoLogger = Logger.getLogger("org.mongodb")
+  val mongoLogger: Logger = Logger.getLogger("org.mongodb")
   mongoLogger.setLevel(Level.SEVERE)
-
-  def main(args: Array[String]): Unit = {
-    connect()
-  }
 
   def connect(): util.LinkedList[util.HashMap[String,String]] = {
     val client: MongoClient = MongoClient("localhost", 27017)
     val database: MongoDB = client("lotrack")
-//    println(database.collectionNames)
     val collection: MongoCollection = database("Languagetool")
-//    println(collection.size)
     val queryResult = collection.findOne()
-//    println(all)
-
     val result = new util.LinkedList[util.HashMap[String,String]]
 
     for(document <- queryResult) {
