@@ -1,4 +1,4 @@
-name := "mongo"
+name := "mongo-connector"
 
 version := "0.1.0-SNAPSHOT"
 
