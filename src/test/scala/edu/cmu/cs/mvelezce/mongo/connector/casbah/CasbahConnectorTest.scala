@@ -9,17 +9,17 @@ import org.scalatest.FlatSpec
   */
 class CasbahConnectorTest extends FlatSpec {
 
-  "CasbahConnector.connect(app, query)" should "return a non empty map" in {
-    val fields: util.List[String] = new util.ArrayList[String]
-    fields.add("Package")
-    fields.add("Class")
-    fields.add("Method")
-    fields.add("JimpleLineNo")
-
-    val sortBy = fields
+//  "CasbahConnector.connect(app, query)" should "return a non empty map" in {
+//    val fields: util.List[String] = new util.ArrayList[String]
+//    fields.add("Package")
+//    fields.add("Class")
+//    fields.add("Method")
+//    fields.add("JimpleLineNo")
+//
+//    val sortBy = fields
 //    val result = Casbah.connect("platypus", fields, sortBy)
 //
 //    assert(result.size() != 0)
 //    println(a)
-  }
+//  }
 }

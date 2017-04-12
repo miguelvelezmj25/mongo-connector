@@ -1,11 +1,15 @@
 package edu.cmu.cs.mvelezce.mongo.connector.scaladriver
 
+import java.util
 import java.util.logging.{Level, Logger}
 
 import Helpers._
+import org.mongodb.scala.model.Projections._
 import edu.cmu.cs.mvelezce.mongo.connector.Connector
 import org.mongodb.scala.bson.collection.immutable.Document
-import org.mongodb.scala.{MongoClient, MongoCollection, MongoDatabase}
+import org.mongodb.scala.{FindObservable, MongoClient, MongoCollection, MongoDatabase}
+
+import scala.collection.JavaConverters._
 
 /**
   * Created by miguelvelez on 4/5/17.
@@ -18,23 +22,55 @@ object ScalaMongoDriverConnector extends Connector {
   private var mongoClient: MongoClient = _
   private var mongoDatabase: MongoDatabase = _
 
-  override def connect(database: String): Unit = {
+  override def connect(database: String) = {
     mongoClient = MongoClient()
     mongoDatabase = mongoClient.getDatabase(database) //"lotrack")
   }
 
-  override def close(): Unit = {
+  override def close() = {
     mongoClient.close()
   }
 
-  override def query(collection: String): Unit = {
-    val mongoCollection: MongoCollection[Document] = mongoDatabase.getCollection(collection)//"Languagetool")
-
-        println(mongoCollection.find.first().results())
-        println(mongoCollection.find.first().headResult().toJson())
-        mongoCollection.find.first().printResults()
-        mongoCollection.find.first().printHeadResult()
+  override def query(collection: String): FindObservable[Document] = {
+    val mongoCollection: MongoCollection[Document] = mongoDatabase.getCollection(collection)
+    mongoCollection.find()
   }
+
+  def query(collection: String, projection: util.List[String]): util.List[String] = {
+    val rawResult = query(collection)
+    // Transform java list to scala sequences that is separted in multiple variables
+    val projectionResult = rawResult.projection(include(asScalaBuffer(projection):_*))
+    val result: util.List[String] = new util.LinkedList[String]()
+
+    for(document <- projectionResult.results()) {
+      result.add(document.toJson)
+    }
+
+    result
+  }
+
+  //        for(field <- fields.asScala) {
+  //          queryFields.put(field, 1)
+  //        }
+  //
+  //        val querySort = MongoDBObject()
+  //
+  //        for(field <- sortBy.asScala) {
+  //          querySort.put(field, 1)
+  //        }
+  //
+  //        val queryResult = collection.find(MongoDBObject.empty, queryFields).sort(querySort)
+
+  //        println(mongoCollection.find.first().results())
+  //    val p = mongoCollection.find()
+  //    println(p.headResult())
+  //    val pp = p.projection(include("Package"))
+  //    println(pp.headResult())
+  //        println(mongoCollection.find(include("Package")).first().headResult().toJson())
+  //        mongoCollection.find.first().printResults()
+  //        mongoCollection.find.first().printHeadResult()
+
+
 
 //
 

@@ -1,5 +1,7 @@
 package edu.cmu.cs.mvelezce.mongo.connector.scaladriver
 
+import java.util
+
 import org.scalatest.FlatSpec
 
 /**
@@ -10,9 +12,20 @@ class ScalaMongoDriverConnectorTest extends FlatSpec {
   val database = "lotrack"
   val collection = "platypus"
 
-  "Scala Mongo Driver" should "return a result" in {
+  "ScalaMongoDriverConnector.query(collection)" should "return a non null result" in {
     ScalaMongoDriverConnector.connect(database)
-    ScalaMongoDriverConnector.query(collection)
+    assert(ScalaMongoDriverConnector.query(collection) != null)
+    ScalaMongoDriverConnector.close()
+  }
+
+  "SScalaMongoDriverConnector.query(collection, projection)" should "return a non empty list of Json results" in {
+    val projection: util.List[String] = new util.LinkedList[String]
+    projection.add("Package")
+    projection.add("Method")
+
+    ScalaMongoDriverConnector.connect(database)
+    val result = ScalaMongoDriverConnector.query(collection, projection)
+    assert(!result.isEmpty)
     ScalaMongoDriverConnector.close()
   }
 }
