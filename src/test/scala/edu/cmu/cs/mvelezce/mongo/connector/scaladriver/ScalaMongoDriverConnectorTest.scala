@@ -18,13 +18,35 @@ class ScalaMongoDriverConnectorTest extends FlatSpec {
     ScalaMongoDriverConnector.close()
   }
 
-  "SScalaMongoDriverConnector.query(collection, projection)" should "return a non empty list of Json results" in {
+  "ScalaMongoDriverConnector.query(collection, projection)" should "return a non empty list of Json results" in {
     val projection: util.List[String] = new util.LinkedList[String]
     projection.add("Package")
     projection.add("Method")
 
     ScalaMongoDriverConnector.connect(database)
     val result = ScalaMongoDriverConnector.query(collection, projection)
+    assert(!result.isEmpty)
+    ScalaMongoDriverConnector.close()
+  }
+
+  "ScalaMongoDriverConnector.queryAscending(collection, projection, sort)" should "return a non empty list of Json results" in {
+    val projection: util.List[String] = new util.LinkedList[String]
+    projection.add("Package")
+    projection.add("Method")
+
+    ScalaMongoDriverConnector.connect(database)
+    val result = ScalaMongoDriverConnector.queryAscending(collection, projection, projection)
+    assert(!result.isEmpty)
+    ScalaMongoDriverConnector.close()
+  }
+
+  "ScalaMongoDriverConnector.queryDescending(collection, projection)" should "return a non empty list of Json results" in {
+    val projection: util.List[String] = new util.LinkedList[String]
+    projection.add("Package")
+    projection.add("Method")
+
+    ScalaMongoDriverConnector.connect(database)
+    val result = ScalaMongoDriverConnector.queryDescending(collection, projection, projection)
     assert(!result.isEmpty)
     ScalaMongoDriverConnector.close()
   }
