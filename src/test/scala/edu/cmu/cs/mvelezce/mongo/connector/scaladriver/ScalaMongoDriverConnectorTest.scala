@@ -50,4 +50,12 @@ class ScalaMongoDriverConnectorTest extends FlatSpec {
     assert(!result.isEmpty)
     ScalaMongoDriverConnector.close()
   }
+
+  "ScalaMongoDriverConnector.getCollectionsNames" should "return a non empty list of collection names" in {
+    ScalaMongoDriverConnector.connect(database)
+    val result = ScalaMongoDriverConnector.getCollectionNames
+    assert(!result.isEmpty)
+    ScalaMongoDriverConnector.close()
+  }
+
 }

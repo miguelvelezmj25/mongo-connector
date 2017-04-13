@@ -26,11 +26,11 @@ object ScalaMongoDriverConnector extends Connector {
 
   override def connect(database: String) = {
     mongoClient = MongoClient()
-    mongoDatabase = mongoClient.getDatabase(database) //"lotrack")
+    mongoDatabase = mongoClient.getDatabase(database)
   }
 
   override def close() = {
-    mongoClient.close()
+    mongoClient.close
   }
 
   override def query(collection: String): FindObservable[Document] = {
@@ -42,9 +42,9 @@ object ScalaMongoDriverConnector extends Connector {
     val rawResult = query(collection)
     // Transform java list to scala sequences that is separted in multiple variables
     val projectionResult = rawResult.projection(include(asScalaBuffer(projection):_*))
-    val result: util.List[String] = new util.LinkedList[String]()
+    val result: util.List[String] = new util.LinkedList[String]
 
-    for(document <- projectionResult.results()) {
+    for(document <- projectionResult.results) {
       result.add(document.toJson)
     }
 
@@ -57,9 +57,9 @@ object ScalaMongoDriverConnector extends Connector {
     val projectionResult = rawResult.projection(include(asScalaBuffer(projection):_*))
     val sortResult = projectionResult.sort(ascending(asScalaBuffer(sort):_*))
 
-    val result: util.List[String] = new util.LinkedList[String]()
+    val result: util.List[String] = new util.LinkedList[String]
 
-    for(document <- sortResult.results()) {
+    for(document <- sortResult.results) {
       result.add(document.toJson)
     }
 
@@ -72,10 +72,21 @@ object ScalaMongoDriverConnector extends Connector {
     val projectionResult = rawResult.projection(include(asScalaBuffer(projection):_*))
     val sortResult = projectionResult.sort(descending(asScalaBuffer(sort):_*))
 
-    val result: util.List[String] = new util.LinkedList[String]()
+    val result: util.List[String] = new util.LinkedList[String]
 
-    for(document <- sortResult.results()) {
+    for(document <- sortResult.results) {
       result.add(document.toJson)
+    }
+
+    result
+  }
+
+  def getCollectionNames: util.List[String] = {
+    val queryResult = mongoDatabase.listCollectionNames
+    val result: util.List[String] = new util.LinkedList[String]
+
+    for(collection <- queryResult.results) {
+      result.add(collection)
     }
 
     result
