@@ -63,7 +63,24 @@ object ScalaMongoDriverConnector extends Connector {
     result
   }
 
-  def findAscending(collection: String, projection: util.List[String], sort: util.List[String]): util.List[String] = {
+  // TODO make this work for non strings
+  def findProjectionFilterAscending(collection: String, projection: util.List[String], field: String, value: String, sort: util.List[String]): util.List[String] = {
+    val rawResult = find(collection)
+    // Transform java list to scala sequences that is separted in multiple variables
+    val projectionResult = rawResult.projection(Projections.include(asScalaBuffer(projection):_*))
+    val filterResult = projectionResult.filter(Filters.equal(field, value))
+    val sortResult = filterResult.sort(ascending(asScalaBuffer(sort):_*))
+
+    val result: util.List[String] = new util.LinkedList[String]
+
+    for(document <- sortResult.results()) {
+      result.add(document.toJson)
+    }
+
+    result
+  }
+
+  def findProjectionAscending(collection: String, projection: util.List[String], sort: util.List[String]): util.List[String] = {
     val rawResult = find(collection)
     // Transform java list to scala sequences that is separted in multiple variables
     val projectionResult = rawResult.projection(Projections.include(asScalaBuffer(projection):_*))
@@ -78,7 +95,7 @@ object ScalaMongoDriverConnector extends Connector {
     result
   }
 
-  def findDescending(collection: String, projection: util.List[String], sort: util.List[String]): util.List[String] = {
+  def findProjectionDescending(collection: String, projection: util.List[String], sort: util.List[String]): util.List[String] = {
     val rawResult = find(collection)
     // Transform java list to scala sequences that is separted in multiple variables
     val projectionResult = rawResult.projection(Projections.include(asScalaBuffer(projection):_*))
