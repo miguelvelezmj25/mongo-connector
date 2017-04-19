@@ -1,7 +1,5 @@
 package edu.cmu.cs.mvelezce.mongo.connector.casbah
 
-import java.util
-
 import org.scalatest.FlatSpec
 
 /**

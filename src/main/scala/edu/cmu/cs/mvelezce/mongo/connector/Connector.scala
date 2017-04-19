@@ -9,7 +9,7 @@ import org.mongodb.scala.bson.collection.immutable.Document
 trait Connector {
   def connect(database: String)
 
-  def query(collection: String): FindObservable[Document]
+  def find(collection: String): FindObservable[Document]
 
   def close()
 }

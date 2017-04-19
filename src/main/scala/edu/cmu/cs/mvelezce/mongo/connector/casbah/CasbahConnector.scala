@@ -1,10 +1,5 @@
 package edu.cmu.cs.mvelezce.mongo.connector.casbah
 
-import java.util
-import java.util.logging.{Level, Logger}
-
-import collection.JavaConverters._
-
 //import com.mongodb.casbah.commons.MongoDBObject
 //import com.mongodb.casbah.{MongoClient, MongoCollection, MongoDB}
 
